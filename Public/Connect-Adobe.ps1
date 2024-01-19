@@ -1,10 +1,10 @@
 ﻿function Connect-Adobe {
     [CmdletBinding(DefaultParameterSetName = 'UserName')]
     param(
-        [string] $ClientID,
-        [string] $ClientSecret,
-        [string] $Scopes,
-        [string] $Organization,
+        [parameter('Mandatory')][string] $ClientID,
+        [parameter('Mandatory')][string] $ClientSecret,
+        [parameter('Mandatory')][string] $Scopes,
+        [parameter('Mandatory')][string] $Organization,
         [switch] $ExistingToken,
         [switch] $Suppress,
         [switch] $Force

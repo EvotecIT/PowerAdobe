@@ -1,0 +1,59 @@
+﻿function New-AdobeUser {
+    [Alias('Add-AdobeUser')]
+    [cmdletbinding()]
+    param(
+        [string] $EmailAddress,
+        [string] $Country,
+        [string] $FirstName,
+        [string] $LastName,
+
+        [ValidateSet('ignoreIfAlreadyExists', 'updateIfAlreadyExists')]
+        [string] $Option = 'ignoreIfAlreadyExists',
+
+        [Parameter(Mandatory)]
+        [ValidateSet('createEnterpriseID', 'addAdobeID', 'createFederatedID')]
+        [string] $Type
+    )
+
+    $List = @{
+        createEnterpriseID = 'createEnterpriseID'
+        addAdobeID         = 'addAdobeID'
+        createFederatedID  = 'createFederatedID'
+    }
+    $OptionList = @{
+        ignoreIfAlreadyExists = 'ignoreIfAlreadyExists'
+        updateIfAlreadyExists = 'updateIfAlreadyExists'
+    }
+    $OptionConverted = $OptionList[$Option]
+
+    if (-not $Script:AdobeTokenInformation) {
+        Write-Warning -Message 'New-AdobeUser - You need to connect to Adobe first using Connect-Adobe'
+        return
+    }
+    # we need to convert the type to the correct format so it preservers problem casing
+    $ConvertedType = $List[$Type]
+    $Data = [ordered] @{
+        user      = $EmailAddress
+        requestID = "action_1"
+        do        = @(
+            [ordered] @{
+                $ConvertedType = [ordered] @{
+                    email     = $EmailAddress
+                    country   = $Country
+                    firstname = $FirstName
+                    lastname  = $LastName
+                    option    = $OptionConverted
+                }
+            }
+        )
+    }
+
+    $Data | ConvertTo-Json -Depth 5 | Write-Verbose
+
+    $QueryParameter = [ordered] @{
+        testOnly = $true
+    }
+
+    Invoke-AdobeQuery -Url "action" -Method 'POST' -Data $Data -QueryParameter $QueryParameter
+}
+

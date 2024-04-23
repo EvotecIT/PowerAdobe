@@ -53,6 +53,7 @@
             #'Content-Type'  = 'application/x-www-form-urlencoded'
             'Authorization' = "Bearer $($Script:AdobeTokenInformation.Token)"
             "X-Api-Key"     = "$ClientID"
+            'Content-type'  = 'application/json'
         }
         if (-not $Suppress) {
             $Script:AdobeTokenInformation

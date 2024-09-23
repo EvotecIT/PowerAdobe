@@ -6,7 +6,7 @@
         [parameter(Mandatory)][string] $Scopes,
         [parameter(Mandatory)][string] $Organization,
         [switch] $ExistingToken,
-        [switch] $Suppress,
+        [switch] $DoNotSuppress,
         [switch] $Force
     )
     # Check for curent token
@@ -55,13 +55,13 @@
             "X-Api-Key"     = "$ClientID"
             'Content-type'  = 'application/json'
         }
-        if (-not $Suppress) {
+        if ($DoNotSuppress) {
             $Script:AdobeTokenInformation
         }
     } else {
         $WhenExpires = $Script:AdobeTokenInformation.expires - $CurrentTime
         Write-Verbose -Message "Connect-Adobe - Using existing cached token (Expires in: $WhenExpires)"
-        if (-not $Suppress -and -not $ExistingToken) {
+        if ($DoNotSuppress -and -not $ExistingToken) {
             $Script:AdobeTokenInformation
         }
     }

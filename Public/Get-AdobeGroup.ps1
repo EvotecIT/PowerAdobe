@@ -8,5 +8,5 @@
         return
     }
 
-    Invoke-AdobeQuery -Url "groups" -Method 'GET'
+    Invoke-AdobeQuery -Url "groups/{orgId}/{page}" -Method 'GET'
 }

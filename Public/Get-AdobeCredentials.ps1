@@ -21,4 +21,6 @@
             Write-Warning -Message "Get-AdobeCredentials - Unable to connect to organization '$Organization'. Error $($_.Exception.Message)"
         }
     }
+
+  #  Invoke-AdobeQuery -Url "credentials" -Method 'GET' -baseUri "https://api.adobe.io/console/organizations/$($($Script:AdobeTokenInformation).Organization)"
 }

@@ -1,7 +1,7 @@
 ﻿function Remove-AdobeGroup {
-    [CmdletBinding()]
+    [CmdletBinding(SupportsShouldProcess)]
     param(
-        [Parameter(Mandatory)][string] $Name
+        [alias('GroupName')][Parameter(Mandatory)][string] $Name
     )
     if (-not $Script:AdobeTokenInformation) {
         Write-Warning -Message 'Remove-AdobeGroup - You need to connect to Adobe first using Connect-Adobe'
@@ -22,7 +22,7 @@
     $Data | ConvertTo-Json -Depth 5 | Write-Verbose
 
     $QueryParameter = [ordered] @{
-        testOnly = $false
+        testOnly = if ($PSCmdlet.ShouldProcess($Name, 'Remove Adobe Group Member')) { $false } else { $true }
     }
 
     Invoke-AdobeQuery -Url "action" -Method 'POST' -Data $Data -QueryParameter $QueryParameter

@@ -22,3 +22,9 @@ $Groups | Format-Table
 
 $GroupMembers = Get-AdobeGroupMember -GroupName 'Admins' -Verbose
 $GroupMembers | Format-Table
+
+$NewGroup = New-AdobeGroup -Name 'TestGroup2' -Description 'Test Group Description'
+$NewGroup | Format-Table
+
+$UpdateGroup = Set-AdobeGroup -Name 'TestGroup2' -NewName 'TestGroup3' -Description 'Test Group Description 3' -Verbose
+$UpdateGroup | Format-Table

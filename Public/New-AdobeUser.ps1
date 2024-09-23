@@ -1,6 +1,6 @@
 ﻿function New-AdobeUser {
     [Alias('Add-AdobeUser')]
-    [cmdletbinding()]
+    [cmdletbinding(SupportsShouldProcess)]
     param(
         [string] $EmailAddress,
         [string] $Country,
@@ -51,7 +51,7 @@
     $Data | ConvertTo-Json -Depth 5 | Write-Verbose
 
     $QueryParameter = [ordered] @{
-        testOnly = $true
+        testOnly = if ($PSCmdlet.ShouldProcess($EmailAddress, 'Add Adobe User')) { $false } else { $true }
     }
 
     Invoke-AdobeQuery -Url "action" -Method 'POST' -Data $Data -QueryParameter $QueryParameter

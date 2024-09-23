@@ -10,8 +10,11 @@
     $Organization = $($($Script:AdobeTokenInformation).Organization)
     if ($Method -eq 'GET') {
         $Page = 0
+        $UsedUrl = $Url
         Do {
-            $UriToUse = Join-UriQuery -BaseUri $BaseUri -RelativeOrAbsoluteUri "$Url/$Organization/$Page" -QueryParameter $QueryParameter
+            $UsedUrl = $Url.Replace('{orgId}', $Organization)
+            $UsedUrl = $UsedUrl.Replace('{page}', $Page)
+            $UriToUse = Join-UriQuery -BaseUri $BaseUri -RelativeOrAbsoluteUri $UsedUrl -QueryParameter $QueryParameter
 
             Write-Verbose -Message "Invoke-AdobeQuery - Url: $UriToUse / Method: $Method / Page: $Page"
             try {
@@ -42,8 +45,14 @@
             }
             if ($Response) {
                 $Output = $Response.Content | ConvertFrom-Json -ErrorAction SilentlyContinue
-                if ($Output.users) {
+                if ($null -ne $Output.users) {
                     $Output.users
+                } elseif ($null -ne $Output.groups) {
+                    $Output.groups
+                } elseif ($null -ne $Output.user) {
+                    $Output.user
+                } else {
+                    $Output
                 }
                 if ($Output.Headers."-X-Page-Count") {
                     $MaximumPageCount = $Output.Headers."-X-Page-Count"

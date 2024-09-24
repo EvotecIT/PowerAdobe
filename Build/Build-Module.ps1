@@ -2,7 +2,7 @@
     # Usual defaults as per standard module
     $Manifest = [ordered] @{
 
-        ModuleVersion          = '0.X.0'
+        ModuleVersion          = '1.X.0'
         CompatiblePSEditions   = @('Desktop', 'Core')
         GUID                   = 'c2607b7b-4422-4687-b22c-1c26b456b47c'
         Author                 = 'Przemyslaw Klys'
@@ -13,7 +13,7 @@
         Tags                   = @('Windows', 'MacOS', 'Linux')
         #IconUri                = 'https://resources.jamf.com/images/icons/jamf-og-image.jpg'
         ProjectUri             = 'https://github.com/EvotecIT/PowerAdobe'
-        DotNetFrameworkVersion = '4.5.2'
+        #DotNetFrameworkVersion = '4.5.2'
     }
     New-ConfigurationManifest @Manifest
 

@@ -34,7 +34,6 @@ Install-Module -Name PowerAdobe -Force -Verbose
 | Alias       | Add-AdobeUser           | 0.0.0   | PowerAdobe |
 | Function    | Add-AdobeGroupMember    | 0.0.0   | PowerAdobe |
 | Function    | Connect-Adobe           | 0.0.0   | PowerAdobe |
-| Function    | Get-AdobeCredentials    | 0.0.0   | PowerAdobe |
 | Function    | Get-AdobeGroup          | 0.0.0   | PowerAdobe |
 | Function    | Get-AdobeGroupMember    | 0.0.0   | PowerAdobe |
 | Function    | Get-AdobeUser           | 0.0.0   | PowerAdobe |

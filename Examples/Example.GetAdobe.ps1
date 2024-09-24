@@ -9,14 +9,14 @@ $connectAdobeSplat = @{
 
 Connect-Adobe @connectAdobeSplat -Verbose
 
-# Keep in mind of thresholds which are very strict for all users
+# Keep in mind of thresholds which are very strict for all users (1-2 calls per hour regardless of how many users you have)
 $Users = Get-AdobeUser
 $Users | Format-Table
 
 $User = Get-AdobeUser -Email '<email>' -Verbose
 $User | Format-Table
 
-# Keep in mind of thresholds which are very strict for all groups
+# Keep in mind of thresholds which are very strict for all groups (1-2 calls per hour regardless of how many users you have)
 $Groups = Get-AdobeGroup -Verbose
 $Groups | Format-Table
 
@@ -28,3 +28,9 @@ $NewGroup | Format-Table
 
 $UpdateGroup = Set-AdobeGroup -Name 'TestGroup2' -NewName 'TestGroup3' -Description 'Test Group Description 3' -Verbose
 $UpdateGroup | Format-Table
+
+$ActionInformation = Add-AdobeUser -EmailAddress 'JZ@test.com' -Country 'PL' -FirstName 'Przemyslaw' -LastName 'Klys' -Option ignoreIfAlreadyExists -Type createFederatedID -WhatIf -Verbose
+$ActionInformation
+
+$SetInformaiton = Set-AdobeUser -EmailAddress 'JZ@test.com' -LastName 'Klys' -WhatIf -Verbose
+$SetInformaiton

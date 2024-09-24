@@ -2,26 +2,24 @@
     # Usual defaults as per standard module
     $Manifest = [ordered] @{
 
-        ModuleVersion          = '1.X.0'
-        CompatiblePSEditions   = @('Desktop', 'Core')
-        GUID                   = 'c2607b7b-4422-4687-b22c-1c26b456b47c'
-        Author                 = 'Przemyslaw Klys'
-        CompanyName            = 'Evotec'
-        Copyright              = "(c) 2011 - $((Get-Date).Year) Przemyslaw Klys @ Evotec. All rights reserved."
-        Description            = 'PowerAdobe is an unofficial PowerShell module for Adobe API.'
-        PowerShellVersion      = '5.1'
-        Tags                   = @('Windows', 'MacOS', 'Linux')
+        ModuleVersion        = '1.X.0'
+        CompatiblePSEditions = @('Desktop', 'Core')
+        GUID                 = 'c2607b7b-4422-4687-b22c-1c26b456b47c'
+        Author               = 'Przemyslaw Klys'
+        CompanyName          = 'Evotec'
+        Copyright            = "(c) 2011 - $((Get-Date).Year) Przemyslaw Klys @ Evotec. All rights reserved."
+        Description          = 'PowerAdobe is an unofficial PowerShell module for Adobe API.'
+        PowerShellVersion    = '5.1'
+        Tags                 = @('Windows', 'MacOS', 'Linux')
         #IconUri                = 'https://resources.jamf.com/images/icons/jamf-og-image.jpg'
-        ProjectUri             = 'https://github.com/EvotecIT/PowerAdobe'
+        ProjectUri           = 'https://github.com/EvotecIT/PowerAdobe'
         #DotNetFrameworkVersion = '4.5.2'
     }
     New-ConfigurationManifest @Manifest
 
-    New-ConfigurationModule -Type ExternalModule -Name 'Microsoft.PowerShell.Utility', 'Microsoft.PowerShell.Security'
-
     New-ConfigurationModule -Type ApprovedModule -Name 'PSSharedGoods', 'PSWriteColor', 'Connectimo', 'PSUnifi', 'PSWebToolbox', 'PSMyPassword'
 
-    New-ConfigurationModuleSkip -IgnoreFunctionName "IsOfType", "IsNumeric"
+    New-ConfigurationModuleSkip -IgnoreFunctionName "IsOfType", "IsNumeric" -IgnoreModuleName 'Microsoft.PowerShell.Utility'
 
     $ConfigurationFormat = [ordered] @{
         RemoveComments                              = $false

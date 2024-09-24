@@ -24,7 +24,7 @@
 ## Installation
 
 ```powershell
-Install-Module -Name PowerInfoblox -Force -Verbose
+Install-Module -Name PowerAdobe -Force -Verbose
 ```
 
 ## Available commands

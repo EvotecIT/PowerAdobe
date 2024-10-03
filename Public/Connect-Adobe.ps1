@@ -43,7 +43,7 @@
         try {
             $Response = Invoke-RestMethod -Method Post -Uri $Url -Headers $Headers -Body $Body -ErrorAction Stop -Verbose:$false
         } catch {
-            Write-Warning -Message "Connect-Jamf - Unable to connect to organization '$Organization' with user '$UserName'. Error $($_.Exception.Message)"
+            Write-Warning -Message "Connect-Adobe - Unable to connect to organization '$Organization' with user '$UserName'. Error $($_.Exception.Message)"
             return
         }
 

@@ -13,6 +13,6 @@
         Invoke-AdobeQuery -Url "organizations/{orgId}/users/$Email" -Method 'GET'
     } else {
         #List all users : GET /v2/usermanagement/users/{orgId}/{page}
-        Invoke-AdobeQuery -Url "users/{orgId}{page}" -Method 'GET'
+        Invoke-AdobeQuery -Url "users/{orgId}/{page}" -Method 'GET'
     }
 }

@@ -1,4 +1,20 @@
 ﻿function Get-AdobeUser {
+    <#
+    .SYNOPSIS
+    Retrieves Adobe user information.
+
+    .DESCRIPTION
+    The Get-AdobeUser cmdlet fetches details of a specific Adobe user or lists all users if no email is provided. Requires an active Adobe connection.
+
+    .PARAMETER Email
+    The email address of the user to retrieve information for.
+
+    .EXAMPLE
+    Get-AdobeUser -Email "jane.doe@example.com"
+
+    .EXAMPLE
+    Get-AdobeUser
+    #>
     [CmdletBinding()]
     param(
         [string] $Email

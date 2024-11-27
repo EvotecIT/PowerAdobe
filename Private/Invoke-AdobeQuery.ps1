@@ -4,7 +4,7 @@
         [string] $BaseUri = 'https://usermanagement.adobe.io/v2/usermanagement',
         [Parameter(Mandatory)][string] $Url,
         [Parameter(Mandatory)][string] $Method,
-        [Parameter()][System.Collections.IDictionary] $Data,
+        [Parameter()][System.Collections.IDictionary[]] $Data,
         [Parameter()][System.Collections.IDictionary] $QueryParameter
     )
     $Organization = $($($Script:AdobeTokenInformation).Organization)

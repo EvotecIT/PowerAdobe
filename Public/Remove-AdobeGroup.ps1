@@ -1,4 +1,17 @@
 ﻿function Remove-AdobeGroup {
+    <#
+    .SYNOPSIS
+    Removes an Adobe user group.
+
+    .DESCRIPTION
+    The Remove-AdobeGroup cmdlet deletes a specified user group from the Adobe system. It requires an active Adobe connection.
+
+    .PARAMETER Name
+    The name of the Adobe group to remove.
+
+    .EXAMPLE
+    Remove-AdobeGroup -Name "MarketingTeam"
+    #>
     [CmdletBinding(SupportsShouldProcess)]
     param(
         [alias('GroupName')][Parameter(Mandatory)][string] $Name
@@ -12,7 +25,7 @@
         requestID = "action_$(Get-Random)"
         do        = @(
             [ordered] @{
-                'deleteUserGroup' = [ordered] @{}
+                'deleteUserGroup' = [ordered] @{ }
             }
         )
     }

@@ -1,4 +1,23 @@
 ﻿function Invoke-AdobeBulk {
+    <#
+    .SYNOPSIS
+    Executes bulk operations on Adobe users.
+
+    .DESCRIPTION
+    The Invoke-AdobeBulk cmdlet performs multiple Adobe user operations in a single request. It processes actions defined in a script block and handles errors accordingly.
+
+    .PARAMETER Actions
+    A script block containing the bulk actions to execute.
+
+    .PARAMETER Suppress
+    Suppresses output of errors.
+
+    .EXAMPLE
+    Invoke-AdobeBulk {
+        Add-AdobeUser -EmailAddress "john.doe@example.com" -Country "US" -FirstName "John" -LastName "Doe" -Type "createFederatedID" -BulkProcessing
+        Set-AdobeUser -EmailAddress "john.doe@example.com" -LastName "Doe-Smith" -BulkProcessing
+    }
+    #>
     [CmdletBinding(supportsShouldProcess)]
     param(
         [scriptblock] $Actions,

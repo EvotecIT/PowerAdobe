@@ -20,7 +20,7 @@
 
     $Data = [ordered] @{
         usergroup = $Name
-        requestID = "action_1"
+        requestID = "action_$(Get-Random)"
         do        = @(
             [ordered] @{
                 'createUserGroup' = [ordered] @{

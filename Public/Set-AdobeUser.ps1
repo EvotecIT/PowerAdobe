@@ -37,7 +37,8 @@
         [string] $Country,
         [string] $FirstName,
         [string] $LastName,
-        [string] $UserName
+        [string] $UserName,
+        [switch] $BulkProcessing
     )
 
     if (-not $Script:AdobeTokenInformation) {
@@ -62,10 +63,14 @@
     }
     $Data = [ordered] @{
         user      = $EmailAddress
-        requestID = "1234567890"
+        requestID = "action_$(Get-Random)"
         do        = @(
             $UpdateObject
         )
+    }
+
+    if ($BulkProcessing) {
+        return $Data
     }
 
     $Data | ConvertTo-Json -Depth 5 | Write-Verbose

@@ -17,7 +17,7 @@
     if ($All) {
         $Data = [ordered] @{
             user      = $Email
-            requestID = "action_1"
+            requestID = "action_$(Get-Random)"
             do        = @(
                 @{
                     'remove' = 'all'
@@ -27,7 +27,7 @@
     } else {
         $Data = [ordered] @{
             user      = $Email
-            requestID = "action_1"
+            requestID = "action_$(Get-Random)"
             do        = @(
                 @{
                     'remove' = @{

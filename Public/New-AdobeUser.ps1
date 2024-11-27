@@ -12,7 +12,8 @@
 
         [Parameter(Mandatory)]
         [ValidateSet('createEnterpriseID', 'addAdobeID', 'createFederatedID')]
-        [string] $Type
+        [string] $Type,
+        [switch] $BulkProcessing
     )
 
     $List = @{
@@ -34,7 +35,7 @@
     $ConvertedType = $List[$Type]
     $Data = [ordered] @{
         user      = $EmailAddress
-        requestID = "action_1"
+        requestID = "action_$(Get-Random)"
         do        = @(
             [ordered] @{
                 $ConvertedType = [ordered] @{
@@ -46,6 +47,9 @@
                 }
             }
         )
+    }
+    if ($BulkProcessing) {
+        return $Data
     }
 
     $Data | ConvertTo-Json -Depth 5 | Write-Verbose

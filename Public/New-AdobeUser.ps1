@@ -1,4 +1,35 @@
 ﻿function New-AdobeUser {
+    <#
+    .SYNOPSIS
+    Creates a new Adobe user.
+
+    .DESCRIPTION
+    The New-AdobeUser cmdlet adds a new user to the Adobe system with specified details. It supports bulk processing and different user types.
+
+    .PARAMETER EmailAddress
+    The email address of the new user.
+
+    .PARAMETER Country
+    The country of the new user.
+
+    .PARAMETER FirstName
+    The first name of the new user.
+
+    .PARAMETER LastName
+    The last name of the new user.
+
+    .PARAMETER Option
+    Determines how to handle existing users. Options are 'ignoreIfAlreadyExists' or 'updateIfAlreadyExists'.
+
+    .PARAMETER Type
+    Specifies the type of Adobe ID to create. Valid values are 'createEnterpriseID', 'addAdobeID', or 'createFederatedID'.
+
+    .PARAMETER BulkProcessing
+    Switch to enable bulk processing mode.
+
+    .EXAMPLE
+    New-AdobeUser -EmailAddress "jane.doe@example.com" -Country "US" -FirstName "Jane" -LastName "Doe" -Type "createFederatedID"
+    #>
     [Alias('Add-AdobeUser')]
     [cmdletbinding(SupportsShouldProcess)]
     param(

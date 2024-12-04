@@ -3,7 +3,8 @@
     param(
         [Parameter(Mandatory)][string] $Name,
         [Parameter()][string] $NewName,
-        [Parameter()][string] $Description
+        [Parameter()][string] $Description,
+        [switch] $BulkProcessing
     )
     if (-not $Script:AdobeTokenInformation) {
         Write-Warning -Message 'Set-AdobeGroup - You need to connect to Adobe first using Connect-Adobe'
@@ -28,6 +29,10 @@
     }
 
     Remove-EmptyValue -Hashtable $Data -Recursive -Rerun 2
+
+    if ($BulkProcessing) {
+        return $Data
+    }
 
     $Data | ConvertTo-Json -Depth 5 | Write-Verbose
 

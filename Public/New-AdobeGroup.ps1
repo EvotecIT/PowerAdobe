@@ -4,7 +4,8 @@
         [Parameter(Mandatory)][string] $Name,
         [Parameter()][string] $Description,
         [ValidateSet('ignoreIfAlreadyExists', 'updateIfAlreadyExists')]
-        [string] $Option = 'ignoreIfAlreadyExists'
+        [string] $Option = 'ignoreIfAlreadyExists',
+        [switch] $BulkProcessing
     )
 
     $OptionList = @{
@@ -34,7 +35,11 @@
 
     Remove-EmptyValue -Hashtable $Data -Recursive -Rerun 2
 
-    #$Data | ConvertTo-Json -Depth 5 | Write-Verbose
+    if ($BulkProcessing) {
+        return $Data
+    }
+
+    $Data | ConvertTo-Json -Depth 5 | Write-Verbose
 
     $QueryParameter = [ordered] @{
         testOnly = if ($PSCmdlet.ShouldProcess($Name, 'Create Adobe Group')) { $false } else { $true }

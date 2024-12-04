@@ -9,12 +9,16 @@
     .PARAMETER Name
     The name of the Adobe group to remove.
 
+    .PARAMETER BulkProcessing
+    Switch to enable bulk processing mode.
+
     .EXAMPLE
     Remove-AdobeGroup -Name "MarketingTeam"
     #>
     [CmdletBinding(SupportsShouldProcess)]
     param(
-        [alias('GroupName')][Parameter(Mandatory)][string] $Name
+        [alias('GroupName')][Parameter(Mandatory)][string] $Name,
+        [switch] $BulkProcessing
     )
     if (-not $Script:AdobeTokenInformation) {
         Write-Warning -Message 'Remove-AdobeGroup - You need to connect to Adobe first using Connect-Adobe'
@@ -31,6 +35,10 @@
     }
 
     Remove-EmptyValue -Hashtable $Data -Recursive -Rerun 2
+
+    if ($BulkProcessing) {
+        return $Data
+    }
 
     $Data | ConvertTo-Json -Depth 5 | Write-Verbose
 

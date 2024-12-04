@@ -23,6 +23,12 @@
     .PARAMETER LastName
     Parameter description
 
+    .PARAMETER UserName
+    Parameter description
+
+    .PARAMETER BulkProcessing
+    Switch to enable bulk processing mode.
+
     .EXAMPLE
     $SetInformaiton = Set-AdobeUser -EmailAddress 'przemek@test.pl' -NewEmailAddress 'przemek@test1.pl' -LastName 'Klys' -WhatIf -Verbose
     $SetInformaiton

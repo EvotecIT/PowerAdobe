@@ -2,7 +2,8 @@
     [CmdletBinding(SupportsShouldProcess)]
     param(
         [Parameter(Mandatory)][string[]] $GroupName,
-        [Parameter(Mandatory)][string] $Email
+        [Parameter(Mandatory)][string] $Email,
+        [switch] $BulkProcessing
     )
     if (-not $Script:AdobeTokenInformation) {
         Write-Warning -Message 'Add-AdobeGroupMember - You need to connect to Adobe first using Connect-Adobe'
@@ -27,6 +28,10 @@
     }
 
     Remove-EmptyValue -Hashtable $Data -Recursive -Rerun 2
+
+    if ($BulkProcessing) {
+        return $Data
+    }
 
     $Data | ConvertTo-Json -Depth 5 | Write-Verbose
 

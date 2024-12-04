@@ -18,7 +18,7 @@
         Set-AdobeUser -EmailAddress "john.doe@example.com" -LastName "Doe-Smith" -BulkProcessing
     }
     #>
-    [CmdletBinding(supportsShouldProcess)]
+    [CmdletBinding(SupportsShouldProcess)]
     param(
         [scriptblock] $Actions,
         [switch] $Suppress
@@ -33,20 +33,58 @@
         $Action
     }
 
-    $ActionsToExecute | ConvertTo-Json -Depth 5 | Write-Verbose
+    # Initialize aggregation variables
+    $aggregatedResult = [ordered] @{
+        completed           = 0
+        notCompleted        = 0
+        completedInTestMode = 0
+        result              = 'success'
+        errors              = @()
+    }
 
     $QueryParameter = [ordered] @{
         testOnly = if ($PSCmdlet.ShouldProcess("Updates", 'Do bulk updates')) { $false } else { $true }
     }
 
-    $Output = Invoke-AdobeQuery -Url "action" -Method 'POST' -Data $ActionsToExecute -QueryParameter $QueryParameter
-    if ($Output) {
-        foreach ($ErrorMessage in $Output.Errors) {
+    # Process actions in batches of 20
+    for ($i = 0; $i -lt $ActionsToExecute.Count; $i += 20) {
+        $Batch = $ActionsToExecute[$i..([math]::Min($i + 19, $ActionsToExecute.Count - 1))]
+
+        $Batch | ConvertTo-Json -Depth 5 | Write-Verbose
+
+        $batchOutput = Invoke-AdobeQuery -Url "action" -Method 'POST' -Data $Batch -QueryParameter $QueryParameter
+        foreach ($ErrorMessage in $batchOutput.Errors) {
             Write-Warning -Message "Invoke-AdobeBulk - Processing error [user: $($ErrorMessage.User), index: $($ErrorMessage.Index)] - $($ErrorMessage.Message)"
         }
-        if ($Suppress) {
-            return
+
+        # Aggregate results
+        $aggregatedResult.completed += $batchOutput.completed
+        $aggregatedResult.notCompleted += $batchOutput.notCompleted
+        $aggregatedResult.completedInTestMode += $batchOutput.completedInTestMode
+        if ($batchOutput.errors) {
+            $aggregatedResult.errors += $batchOutput.errors
+            #$aggregatedResult.failed += $batchOutput.errors.Count
         }
-        $Output
+
+        # Update overall result status
+        if ($batchOutput.result -eq 'failure') {
+            $aggregatedResult.result = 'failure'
+        } elseif ($batchOutput.result -ne 'success' -and $aggregatedResult.result -ne 'failure') {
+            $aggregatedResult.result = 'partial'
+        }
+    }
+
+    # Determine overall result based on aggregated data
+    if ($aggregatedResult.failed -eq $ActionsToExecute.Count) {
+        $aggregatedResult.result = 'failure'
+    } elseif ($aggregatedResult.notCompleted -gt 0) {
+        $aggregatedResult.result = 'partial'
+    } else {
+        $aggregatedResult.result = 'success'
+    }
+
+    if (-not $Suppress) {
+        # Output the aggregated results
+        $aggregatedResult
     }
 }

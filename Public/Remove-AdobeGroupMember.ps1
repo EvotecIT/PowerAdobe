@@ -1,4 +1,26 @@
 ﻿function Remove-AdobeGroupMember {
+    <#
+    .SYNOPSIS
+    Removes a member from one or more Adobe groups.
+
+    .DESCRIPTION
+    The Remove-AdobeGroupMember cmdlet removes a specified user from one or more Adobe groups. Use the -All switch to remove the user from all groups.
+
+    .PARAMETER GroupName
+    The name(s) of the Adobe group(s) from which the user will be removed.
+
+    .PARAMETER Email
+    The email address of the user to be removed from the group(s).
+
+    .PARAMETER All
+    Removes the user from all Adobe groups.
+
+    .EXAMPLE
+    Remove-AdobeGroupMember -GroupName "Marketing" -Email "user@example.com"
+
+    .EXAMPLE
+    Remove-AdobeGroupMember -All -Email "user@example.com"
+    #>
     [CmdletBinding(SupportsShouldProcess)]
     param(
         [Parameter(Mandatory)][string[]] $GroupName,

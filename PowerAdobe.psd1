@@ -9,7 +9,7 @@
     DotNetFrameworkVersion = '4.5.2'
     FunctionsToExport      = @('Add-AdobeGroupMember', 'Connect-Adobe', 'Get-AdobeGroup', 'Get-AdobeGroupMember', 'Get-AdobeUser', 'Invoke-AdobeBulk', 'New-AdobeGroup', 'New-AdobeUser', 'Remove-AdobeGroup', 'Remove-AdobeGroupMember', 'Remove-AdobeUser', 'Set-AdobeGroup', 'Set-AdobeUser')
     GUID                   = 'c2607b7b-4422-4687-b22c-1c26b456b47c'
-    ModuleVersion          = '1.0.3'
+    ModuleVersion          = '1.0.4'
     PowerShellVersion      = '5.1'
     PrivateData            = @{
         PSData = @{

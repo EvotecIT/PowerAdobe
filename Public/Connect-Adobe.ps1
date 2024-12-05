@@ -1,4 +1,35 @@
 ﻿function Connect-Adobe {
+    <#
+    .SYNOPSIS
+    Connects to the Adobe API.
+
+    .DESCRIPTION
+    The Connect-Adobe cmdlet establishes a connection to the Adobe API using the provided credentials and scopes. It handles token retrieval and caching for subsequent API calls.
+
+    .PARAMETER ClientID
+    The Client ID for Adobe API authentication.
+
+    .PARAMETER ClientSecret
+    The Client Secret for Adobe API authentication.
+
+    .PARAMETER Scopes
+    The scopes for API access.
+
+    .PARAMETER Organization
+    The Adobe organization identifier.
+
+    .PARAMETER ExistingToken
+    Use an existing token if available.
+
+    .PARAMETER DoNotSuppress
+    Suppress suppression of the token information.
+
+    .PARAMETER Force
+    Force a new token retrieval even if a valid token exists.
+
+    .EXAMPLE
+    Connect-Adobe -ClientID "your_client_id" -ClientSecret "your_client_secret" -Scopes "openid, AdobeID" -Organization "your_org_id"
+    #>
     [CmdletBinding()]
     param(
         [parameter(Mandatory)][string] $ClientID,

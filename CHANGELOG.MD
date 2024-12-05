@@ -1,4 +1,7 @@
-﻿### 1.0.3 - 2024.12.05
+﻿### 1.0.4 - 2024.12.05
+- Improve documentation
+
+### 1.0.3 - 2024.12.05
 - Added `Invoke-AdobeBulk` to allow bulk operations on Adobe users, as the API is very strict on rate limiting
 - Added some documentation
 - Improvements overall

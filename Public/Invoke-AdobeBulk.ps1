@@ -4,19 +4,33 @@
     Executes bulk operations on Adobe users.
 
     .DESCRIPTION
-    The Invoke-AdobeBulk cmdlet performs multiple Adobe user operations in a single request. It processes actions defined in a script block and handles errors accordingly.
+    The Invoke-AdobeBulk cmdlet performs multiple Adobe user operations in a single request. It processes actions defined in a script block in batches of 20 to comply with Adobe's API limitations, ensures actions are executed in order, and aggregates the results to provide a single consolidated output at the end.
 
     .PARAMETER Actions
-    A script block containing the bulk actions to execute.
+    A script block containing the bulk actions to execute. Each action should be a PowerShell cmdlet that modifies Adobe user or group information.
 
     .PARAMETER Suppress
-    Suppresses output of errors.
+    Suppresses the output of errors. When this switch is used, any errors encountered during the execution of bulk actions will not be displayed.
 
     .EXAMPLE
+    # Execute bulk operations to add and update Adobe users
     Invoke-AdobeBulk {
         Add-AdobeUser -EmailAddress "john.doe@example.com" -Country "US" -FirstName "John" -LastName "Doe" -Type "createFederatedID" -BulkProcessing
         Set-AdobeUser -EmailAddress "john.doe@example.com" -LastName "Doe-Smith" -BulkProcessing
     }
+
+    .EXAMPLE
+    # Execute bulk operations and suppress error output
+    Invoke-AdobeBulk {
+        Add-AdobeUser -EmailAddress "jane.doe@example.com" -Country "UK" -FirstName "Jane" -LastName "Doe" -Type "createEnterpriseID" -BulkProcessing
+        Set-AdobeUser -EmailAddress "jane.doe@example.com" -LastName "Doe-Smith" -BulkProcessing
+    } -Suppress
+
+    .NOTES
+    - Ensure that you have connected to Adobe using `Connect-Adobe` before executing bulk operations.
+    - The cmdlet processes actions in the order they are provided and aggregates the results to provide a comprehensive status report at the end of execution.
+    - Adobe API limits bulk requests to 20 actions per batch. This cmdlet automatically handles batching to adhere to this limitation.
+    - The aggregated output includes counts of completed, not completed, and completed in test mode actions, as well as any errors encountered during execution.
     #>
     [CmdletBinding(SupportsShouldProcess)]
     param(

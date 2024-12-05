@@ -1,4 +1,26 @@
 ﻿function Set-AdobeGroup {
+    <#
+    .SYNOPSIS
+    Updates an Adobe user group.
+
+    .DESCRIPTION
+    The Set-AdobeGroup cmdlet updates the name and/or description of an existing Adobe user group.
+
+    .PARAMETER Name
+    The current name of the Adobe group to update.
+
+    .PARAMETER NewName
+    The new name for the Adobe group.
+
+    .PARAMETER Description
+    The new description for the Adobe group.
+
+    .PARAMETER BulkProcessing
+    Switch to enable bulk processing mode.
+
+    .EXAMPLE
+    Set-AdobeGroup -Name "Developers" -NewName "Senior Developers" -Description "Group for senior developer roles"
+    #>
     [CmdletBinding(SupportsShouldProcess)]
     param(
         [Parameter(Mandatory)][string] $Name,

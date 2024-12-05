@@ -48,6 +48,7 @@
     )
 
     if (-not $Script:AdobeTokenInformation) {
+        # Ensure Adobe is connected before proceeding
         Write-Warning -Message 'Set-AdobeUser - You need to connect to Adobe first using Connect-Adobe'
         return
     }
@@ -62,8 +63,10 @@
         }
     }
 
+    # Remove any empty values from the update object
     Remove-EmptyValue -Hashtable $UpdateObject -Recursive -Rerun 2
     if (-not $UpdateObject) {
+        # Warn if no update values are provided
         Write-Warning -Message 'Set-AdobeUser - You need to provide at least one value to update'
         return
     }
@@ -76,6 +79,7 @@
     }
 
     if ($BulkProcessing) {
+        # Return data for bulk processing
         return $Data
     }
 
@@ -85,5 +89,6 @@
         testOnly = if ($PSCmdlet.ShouldProcess($EmailAddress, 'Update Adobe User')) { $false } else { $true }
     }
 
+    # Invoke the Adobe API with the prepared data
     Invoke-AdobeQuery -Url "action" -Method 'POST' -Data $Data -QueryParameter $QueryParameter
 }

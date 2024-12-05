@@ -1,4 +1,23 @@
 ﻿function Remove-AdobeUser {
+    <#
+    .SYNOPSIS
+    Removes an Adobe user.
+
+    .DESCRIPTION
+    The Remove-AdobeUser cmdlet deletes a specified user from the Adobe system. Optionally, it can also delete the user's account.
+
+    .PARAMETER EmailAddress
+    The email address of the Adobe user to remove.
+
+    .PARAMETER DoNotDeleteAccount
+    When specified, the user's account will not be deleted, only their association with groups.
+
+    .PARAMETER BulkProcessing
+    Switch to enable bulk processing mode.
+
+    .EXAMPLE
+    Remove-AdobeUser -EmailAddress "jane.doe@example.com" -DoNotDeleteAccount
+    #>
     [CmdletBinding(SupportsShouldProcess)]
     param(
         [Parameter(Mandatory)][string] $EmailAddress,

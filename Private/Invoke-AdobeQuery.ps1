@@ -1,4 +1,32 @@
 ﻿function Invoke-AdobeQuery {
+    <#
+    .SYNOPSIS
+    Executes a query against the Adobe User Management API.
+
+    .DESCRIPTION
+    The Invoke-AdobeQuery function sends HTTP requests to the Adobe User Management API. It handles GET and other HTTP methods, manages pagination, and processes responses.
+
+    .PARAMETER BaseUri
+    The base URI for the Adobe User Management API. Defaults to 'https://usermanagement.adobe.io/v2/usermanagement'.
+
+    .PARAMETER Url
+    The endpoint URL for the specific API call.
+
+    .PARAMETER Method
+    The HTTP method to use for the request (e.g., GET, POST).
+
+    .PARAMETER Data
+    The data to include in the body of the request, applicable for methods like POST.
+
+    .PARAMETER QueryParameter
+    Additional query parameters to include in the request URI.
+
+    .EXAMPLE
+    Invoke-AdobeQuery -Url "users" -Method "GET"
+
+    .EXAMPLE
+    Invoke-AdobeQuery -Url "groups" -Method "POST" -Data $groupData
+    #>
     [CmdletBinding()]
     param(
         [string] $BaseUri = 'https://usermanagement.adobe.io/v2/usermanagement',

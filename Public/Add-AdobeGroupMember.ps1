@@ -1,4 +1,26 @@
 ﻿function Add-AdobeGroupMember {
+    <#
+    .SYNOPSIS
+    Adds a member to an Adobe group.
+
+    .DESCRIPTION
+    The Add-AdobeGroupMember cmdlet adds a specified user to one or more Adobe groups. It supports bulk processing for adding multiple groups at once.
+
+    .PARAMETER GroupName
+    The name(s) of the Adobe group(s) to which the user will be added.
+
+    .PARAMETER Email
+    The email address of the user to be added to the group(s).
+
+    .PARAMETER BulkProcessing
+    Enables bulk processing mode for adding multiple groups simultaneously.
+
+    .EXAMPLE
+    Add-AdobeGroupMember -GroupName "Admins" -Email "john.doe@example.com"
+
+    .EXAMPLE
+    Add-AdobeGroupMember -GroupName "Admins","Developers" -Email "john.doe@example.com" -BulkProcessing
+    #>
     [CmdletBinding(SupportsShouldProcess)]
     param(
         [Parameter(Mandatory)][string[]] $GroupName,

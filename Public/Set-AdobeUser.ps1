@@ -4,34 +4,34 @@
     Update Adobe User information using Adobe API
 
     .DESCRIPTION
-    Update Adobe User information using Adobe API. Applies only to Enterprise and Federated users
+    Update Adobe User information using Adobe API. Applies only to Enterprise and Federated users.
     Independent Adobe IDs are managed by the individual user and cannot be updated through the User Management API.
     Attempting to update information for a user who has an Adobe ID will result in an error.
 
     .PARAMETER EmailAddress
-    Parameter description
+    The current email address of the Adobe user to update.
 
     .PARAMETER NewEmailAddress
-    Parameter description
+    The new email address for the Adobe user.
 
     .PARAMETER Country
-    Parameter description
+    The country of the Adobe user.
 
     .PARAMETER FirstName
-    Parameter description
+    The first name of the Adobe user.
 
     .PARAMETER LastName
-    Parameter description
+    The last name of the Adobe user.
 
     .PARAMETER UserName
-    Parameter description
+    The username of the Adobe user.
 
     .PARAMETER BulkProcessing
     Switch to enable bulk processing mode.
 
     .EXAMPLE
-    $SetInformaiton = Set-AdobeUser -EmailAddress 'przemek@test.pl' -NewEmailAddress 'przemek@test1.pl' -LastName 'Klys' -WhatIf -Verbose
-    $SetInformaiton
+    Set-AdobeUser -EmailAddress 'przemek@test.pl' -NewEmailAddress 'przemek@test1.pl' -LastName 'Klys' -WhatIf -Verbose
+    $SetInformation
 
     .NOTES
     General notes

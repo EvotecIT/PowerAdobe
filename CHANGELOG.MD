@@ -1,4 +1,7 @@
-﻿### 1.0.4 - 2024.12.05
+﻿### 1.0.5 - 2024.12.13
+- Added encrypted client secret support
+
+### 1.0.4 - 2024.12.05
 - Improve documentation
 
 ### 1.0.3 - 2024.12.05

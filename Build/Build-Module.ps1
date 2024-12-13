@@ -19,7 +19,7 @@
 
     New-ConfigurationModule -Type ApprovedModule -Name 'PSSharedGoods', 'PSWriteColor', 'Connectimo', 'PSUnifi', 'PSWebToolbox', 'PSMyPassword'
 
-    New-ConfigurationModuleSkip -IgnoreFunctionName "IsOfType", "IsNumeric" -IgnoreModuleName 'Microsoft.PowerShell.Utility'
+    New-ConfigurationModuleSkip -IgnoreFunctionName "IsOfType", "IsNumeric" -IgnoreModuleName 'Microsoft.PowerShell.Utility','Microsoft.PowerShell.Security'
 
     $ConfigurationFormat = [ordered] @{
         RemoveComments                              = $false

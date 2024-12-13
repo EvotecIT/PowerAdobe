@@ -12,6 +12,9 @@
     .PARAMETER ClientSecret
     The Client Secret for Adobe API authentication.
 
+    .PARAMETER ClientSecretEncrypted
+    The encrypted Client Secret for Adobe API authentication.
+
     .PARAMETER Scopes
     The scopes for API access.
 
@@ -33,7 +36,14 @@
     [CmdletBinding()]
     param(
         [parameter(Mandatory)][string] $ClientID,
+
+        [Parameter(Mandatory, ParameterSetName = 'ClearText')]
         [parameter(Mandatory)][string] $ClientSecret,
+
+        [Parameter(Mandatory, ParameterSetName = 'Encrypted')]
+        [alias('ApplicationSecretEncrypted', 'ApplicationKeyEncrypted')]
+        [string] $ClientSecretEncrypted,
+
         [parameter(Mandatory)][string] $Scopes,
         [parameter(Mandatory)][string] $Organization,
         [switch] $ExistingToken,
@@ -42,6 +52,23 @@
     )
     # Check for curent token
     $CurrentTime = (Get-Date).AddSeconds(2)
+
+    if ($ClientSecretEncrypted) {
+        try {
+            $ApplicationKeyTemp = $ClientSecretEncrypted | ConvertTo-SecureString -ErrorAction Stop
+        } catch {
+            if ($PSBoundParameters.ErrorAction -eq 'Stop') {
+                throw
+            } else {
+                $ErrorMessage = $_.Exception.Message -replace "`n", " " -replace "`r", " "
+                Write-Warning -Message "Connect-Adobe - Error: $ErrorMessage"
+                return
+            }
+        }
+        $ApplicationKey = [System.Net.NetworkCredential]::new([string]::Empty, $ApplicationKeyTemp).Password
+    } else {
+        $ApplicationKey = $ClientSecret
+    }
 
     if ($Script:AdobeTokenInformation.Expires -lt $CurrentTime -or $Force) {
         if ($ExistingToken) {
@@ -55,7 +82,7 @@
             }
             $Body = [ordered] @{
                 'client_id'     = $ClientID
-                'client_secret' = $ClientSecret
+                'client_secret' = $ApplicationKey
                 'grant_type'    = 'client_credentials'
                 'scope'         = $Scopes
             }

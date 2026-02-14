@@ -2,7 +2,7 @@
 
 <p align="center">
   <a href="https://www.powershellgallery.com/packages/PowerAdobe"><img src="https://img.shields.io/powershellgallery/v/PowerAdobe.svg?style=flat-square"></a>
-  <a href="https://www.powershellgallery.com/packages/PowerAdobe"><img src="https://img.shields.io/powershellgallery/vpre/PowerAdobe.svg?label=powershell%20gallery%20preview&colorB=yellow&style=flat-square"></a>
+  <a href="https://www.powershellgallery.com/packages/PowerAdobe"><img src="https://img.shields.io/powershellgallery/v/PowerAdobe.svg?label=powershell%20gallery%20preview&colorB=yellow&style=flat-square&include_prereleases"></a>
   <a href="https://github.com/EvotecIT/PowerAdobe"><img src="https://img.shields.io/github/license/EvotecIT/PowerAdobe.svg?style=flat-square"></a>
 </p>
 

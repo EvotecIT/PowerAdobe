@@ -4,18 +4,24 @@
     CmdletsToExport        = @()
     CompanyName            = 'Evotec'
     CompatiblePSEditions   = @('Desktop', 'Core')
-    Copyright              = '(c) 2011 - 2024 Przemyslaw Klys @ Evotec. All rights reserved.'
+    Copyright              = '(c) 2011 - 2026 Przemyslaw Klys @ Evotec. All rights reserved.'
     Description            = 'PowerAdobe is an unofficial PowerShell module for Adobe API.'
-    DotNetFrameworkVersion = '4.5.2'
     FunctionsToExport      = @('Add-AdobeGroupMember', 'Connect-Adobe', 'Get-AdobeGroup', 'Get-AdobeGroupMember', 'Get-AdobeUser', 'Invoke-AdobeBulk', 'New-AdobeGroup', 'New-AdobeUser', 'Remove-AdobeGroup', 'Remove-AdobeGroupMember', 'Remove-AdobeUser', 'Set-AdobeGroup', 'Set-AdobeUser')
     GUID                   = 'c2607b7b-4422-4687-b22c-1c26b456b47c'
-    ModuleVersion          = '1.0.5'
+    ModuleVersion          = '1.0.6'
     PowerShellVersion      = '5.1'
     PrivateData            = @{
         PSData = @{
             ProjectUri = 'https://github.com/EvotecIT/PowerAdobe'
-            Tags       = @('Windows', 'MacOS', 'Linux')
-        }
+            Tags       = @('Windows', 'macOS', 'Linux', 'Adobe')
+            RequireLicenseAcceptance = $false
+            ExternalModuleDependencies = @()
+}
     }
     RootModule             = 'PowerAdobe.psm1'
+    RequiredModules      = @(@{
+            Guid            = 'ee272aa8-baaa-4edf-9f45-b6d6f7d844fe'
+            ModuleName      = 'PSSharedGoods'
+            RequiredVersion = '0.0.313'
+        })
 }

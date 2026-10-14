@@ -1,4 +1,11 @@
-﻿### 1.0.5 - 2024.12.13
+### 1.0.6 - 2026-10-14
+
+- Standardize native Manifest, Build and Publish modes, retain the RunMode alias and add CI checks for source tests and packaged behavior on PowerShell 5.1 and 7.
+
+- Retrieve all user, group-member, and group pages until Adobe returns `lastPage: true`.
+- Stop strict GET retrieval on failed requests, malformed JSON, unsuccessful API responses, or invalid page envelopes.
+- Preserve warning and partial-output behavior for callers that do not select `-ErrorAction Stop`.
+### 1.0.5 - 2024.12.13
 - Added encrypted client secret support
 
 ### 1.0.4 - 2024.12.05

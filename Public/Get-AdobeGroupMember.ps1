@@ -17,6 +17,7 @@
         [parameter(Mandatory)][string] $GroupName
     )
     if (-not $Script:AdobeTokenInformation) {
+        if ($ErrorActionPreference -eq [System.Management.Automation.ActionPreference]::Stop) { throw 'Adobe authorization is not available. Run Connect-Adobe before retrieving data.' }
         Write-Warning -Message 'Get-AdobeGroup - You need to connect to Adobe first using Connect-Adobe'
         return
     }

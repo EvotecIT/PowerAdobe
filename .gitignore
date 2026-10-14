@@ -3,7 +3,7 @@ Ignore/*
 .vscode/*
 Examples/Output/*
 Releases/*
-Artefacts/*
+/Artefacts/
 ReleasedUnpacked/*
 Sources/.vs
 Sources/*/.vs

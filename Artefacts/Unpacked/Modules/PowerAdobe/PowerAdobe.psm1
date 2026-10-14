@@ -658,39 +658,24 @@ function Invoke-AdobeQuery {
             Write-Verbose -Message "Invoke-AdobeQuery - Url: $UriToUse / Method: $Method / Page: $Page"
             try {
                 $Response = Invoke-WebRequest -Method Get -Uri $UriToUse -Headers $Script:AdobeTokenInformation.Headers -ErrorAction Stop -Verbose:$false
-                if (-not $Response -or [string]::IsNullOrWhiteSpace($Response.Content)) {
-                    throw 'Adobe returned an empty response.'
-                }
+                if (-not $Response -or [string]::IsNullOrWhiteSpace($Response.Content)) { throw 'Adobe returned an empty response.' }
                 $Output = $Response.Content | ConvertFrom-Json -ErrorAction Stop
-                if ($Output -isnot [System.Management.Automation.PSCustomObject]) {
-                    throw 'Adobe returned an invalid response object.'
-                }
-                if ($Output.result -and $Output.result -ne 'success') {
-                    throw 'Adobe reported an unsuccessful result.'
-                }
+                if ($Output -isnot [System.Management.Automation.PSCustomObject]) { throw 'Adobe returned an invalid response object.' }
+                if ($Output.result -and $Output.result -ne 'success') { throw 'Adobe reported an unsuccessful result.' }
                 if ($Paged -and ($Output.lastPage -isnot [bool] -or (-not $Output.PSObject.Properties['users'] -and -not $Output.PSObject.Properties['groups']))) {
                     throw 'Adobe returned an invalid paged response.'
                 }
-                if ($Paged -and (($Output.PSObject.Properties['users'] -and $Output.users -isnot [array]) -or ($Output.PSObject.Properties['groups'] -and $Output.groups -isnot [array]))) {
-                    throw 'Adobe returned an invalid page collection.'
-                }
+                if ($Paged -and (($Output.PSObject.Properties['users'] -and $Output.users -isnot [array]) -or ($Output.PSObject.Properties['groups'] -and $Output.groups -isnot [array]))) { throw 'Adobe returned an invalid page collection.' }
             } catch {
                 $Message = "Invoke-AdobeQuery - GET failed for organization '$Organization' at page $Page. A complete result could not be retrieved. Check authentication, service availability, and the response format."
-                if ($Strict) {
-                    throw $Message
-                }
+                if ($Strict) { throw $Message }
                 Write-Warning -Message $Message
                 return
             }
-            if ($null -ne $Output.PSObject.Properties['users']) {
-                $Output.users
-            } elseif ($null -ne $Output.PSObject.Properties['groups']) {
-                $Output.groups
-            } elseif ($null -ne $Output.PSObject.Properties['user']) {
-                $Output.user
-            } else {
-                $Output
-            }
+            if ($null -ne $Output.PSObject.Properties['users']) { $Output.users }
+            elseif ($null -ne $Output.PSObject.Properties['groups']) { $Output.groups }
+            elseif ($null -ne $Output.PSObject.Properties['user']) { $Output.user }
+            else { $Output }
             $Page++
         } while ($Paged -and -not $Output.lastPage)
     } else {
@@ -798,11 +783,7 @@ function Add-AdobeGroupMember {
     $Data | ConvertTo-Json -Depth 5 | Write-Verbose
 
     $QueryParameter = [ordered] @{
-        testOnly = if ($PSCmdlet.ShouldProcess($GroupName, 'Add Adobe Group Member')) {
-            $false
-        } else {
-            $true
-        }
+        testOnly = if ($PSCmdlet.ShouldProcess($GroupName, 'Add Adobe Group Member')) { $false } else { $true }
     }
 
     Invoke-AdobeQuery -Url "action" -Method 'POST' -Data $Data -QueryParameter $QueryParameter
@@ -955,9 +936,7 @@ function Get-AdobeGroup {
 
     )
     if (-not $Script:AdobeTokenInformation) {
-        if ($ErrorActionPreference -eq [System.Management.Automation.ActionPreference]::Stop) {
-            throw 'Adobe authorization is not available. Run Connect-Adobe before retrieving data.'
-        }
+        if ($ErrorActionPreference -eq [System.Management.Automation.ActionPreference]::Stop) { throw 'Adobe authorization is not available. Run Connect-Adobe before retrieving data.' }
         Write-Warning -Message 'Get-AdobeGroup - You need to connect to Adobe first using Connect-Adobe'
         return
     }
@@ -986,9 +965,7 @@ function Get-AdobeGroupMember {
         [parameter(Mandatory)][string] $GroupName
     )
     if (-not $Script:AdobeTokenInformation) {
-        if ($ErrorActionPreference -eq [System.Management.Automation.ActionPreference]::Stop) {
-            throw 'Adobe authorization is not available. Run Connect-Adobe before retrieving data.'
-        }
+        if ($ErrorActionPreference -eq [System.Management.Automation.ActionPreference]::Stop) { throw 'Adobe authorization is not available. Run Connect-Adobe before retrieving data.' }
         Write-Warning -Message 'Get-AdobeGroup - You need to connect to Adobe first using Connect-Adobe'
         return
     }
@@ -1020,9 +997,7 @@ function Get-AdobeUser {
         [string] $Email
     )
     if (-not $Script:AdobeTokenInformation) {
-        if ($ErrorActionPreference -eq [System.Management.Automation.ActionPreference]::Stop) {
-            throw 'Adobe authorization is not available. Run Connect-Adobe before retrieving data.'
-        }
+        if ($ErrorActionPreference -eq [System.Management.Automation.ActionPreference]::Stop) { throw 'Adobe authorization is not available. Run Connect-Adobe before retrieving data.' }
         Write-Warning -Message 'Get-AdobeUser - You need to connect to Adobe first using Connect-Adobe'
         return
     }
@@ -1097,11 +1072,7 @@ function Invoke-AdobeBulk {
     }
 
     $QueryParameter = [ordered] @{
-        testOnly = if ($PSCmdlet.ShouldProcess("Updates", 'Do bulk updates')) {
-            $false
-        } else {
-            $true
-        }
+        testOnly = if ($PSCmdlet.ShouldProcess("Updates", 'Do bulk updates')) { $false } else { $true }
     }
 
     # Process actions in batches of 20
@@ -1193,11 +1164,7 @@ function New-AdobeGroup {
     $Data | ConvertTo-Json -Depth 5 | Write-Verbose
 
     $QueryParameter = [ordered] @{
-        testOnly = if ($PSCmdlet.ShouldProcess($Name, 'Create Adobe Group')) {
-            $false
-        } else {
-            $true
-        }
+        testOnly = if ($PSCmdlet.ShouldProcess($Name, 'Create Adobe Group')) { $false } else { $true }
     }
 
     Invoke-AdobeQuery -Url "action" -Method 'POST' -Data $Data -QueryParameter $QueryParameter
@@ -1293,11 +1260,7 @@ function New-AdobeUser {
     $Data | ConvertTo-Json -Depth 5 | Write-Verbose
 
     $QueryParameter = [ordered] @{
-        testOnly = if ($PSCmdlet.ShouldProcess($EmailAddress, 'Add Adobe User')) {
-            $false
-        } else {
-            $true
-        }
+        testOnly = if ($PSCmdlet.ShouldProcess($EmailAddress, 'Add Adobe User')) { $false } else { $true }
     }
 
     Invoke-AdobeQuery -Url "action" -Method 'POST' -Data $Data -QueryParameter $QueryParameter
@@ -1351,11 +1314,7 @@ function Remove-AdobeGroup {
     $Data | ConvertTo-Json -Depth 5 | Write-Verbose
 
     $QueryParameter = [ordered] @{
-        testOnly = if ($PSCmdlet.ShouldProcess($Name, 'Remove Adobe Group Member')) {
-            $false
-        } else {
-            $true
-        }
+        testOnly = if ($PSCmdlet.ShouldProcess($Name, 'Remove Adobe Group Member')) { $false } else { $true }
     }
 
     Invoke-AdobeQuery -Url "action" -Method 'POST' -Data $Data -QueryParameter $QueryParameter
@@ -1432,11 +1391,7 @@ function Remove-AdobeGroupMember {
     $Data | ConvertTo-Json -Depth 5 | Write-Verbose
 
     $QueryParameter = [ordered] @{
-        testOnly = if ($PSCmdlet.ShouldProcess($GroupName, 'Remove Adobe Group Member')) {
-            $false
-        } else {
-            $true
-        }
+        testOnly = if ($PSCmdlet.ShouldProcess($GroupName, 'Remove Adobe Group Member')) { $false } else { $true }
     }
 
     Invoke-AdobeQuery -Url "action" -Method 'POST' -Data $Data -QueryParameter $QueryParameter
@@ -1495,11 +1450,7 @@ function Remove-AdobeUser {
     $Data | ConvertTo-Json -Depth 5 | Write-Verbose
 
     $QueryParameter = [ordered] @{
-        testOnly = if ($PSCmdlet.ShouldProcess($EmailAddress, 'Remove Adobe User')) {
-            $false
-        } else {
-            $true
-        }
+        testOnly = if ($PSCmdlet.ShouldProcess($EmailAddress, 'Remove Adobe User')) { $false } else { $true }
     }
 
     Invoke-AdobeQuery -Url "action" -Method 'POST' -Data $Data -QueryParameter $QueryParameter
@@ -1568,11 +1519,7 @@ function Set-AdobeGroup {
     $Data | ConvertTo-Json -Depth 5 | Write-Verbose
 
     $QueryParameter = [ordered] @{
-        testOnly = if ($PSCmdlet.ShouldProcess($Name, 'Set Adobe Group')) {
-            $false
-        } else {
-            $true
-        }
+        testOnly = if ($PSCmdlet.ShouldProcess($Name, 'Set Adobe Group')) { $false } else { $true }
     }
 
     Invoke-AdobeQuery -Url "action" -Method 'POST' -Data $Data -QueryParameter $QueryParameter
@@ -1668,11 +1615,7 @@ function Set-AdobeUser {
     $Data | ConvertTo-Json -Depth 5 | Write-Verbose
 
     $QueryParameter = [ordered] @{
-        testOnly = if ($PSCmdlet.ShouldProcess($EmailAddress, 'Update Adobe User')) {
-            $false
-        } else {
-            $true
-        }
+        testOnly = if ($PSCmdlet.ShouldProcess($EmailAddress, 'Update Adobe User')) { $false } else { $true }
     }
 
     # Invoke the Adobe API with the prepared data

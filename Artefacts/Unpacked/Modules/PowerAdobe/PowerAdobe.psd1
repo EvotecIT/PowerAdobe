@@ -13,7 +13,7 @@
     PrivateData          = @{
         PSData = @{
             ProjectUri                 = 'https://github.com/EvotecIT/PowerAdobe'
-            Tags                       = @('Windows', 'MacOS', 'Linux')
+            Tags                       = @('Windows', 'macOS', 'Linux', 'Adobe')
             RequireLicenseAcceptance   = $false
             ExternalModuleDependencies = @()
         }

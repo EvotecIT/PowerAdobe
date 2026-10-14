@@ -13,11 +13,15 @@
     PrivateData            = @{
         PSData = @{
             ProjectUri = 'https://github.com/EvotecIT/PowerAdobe'
-            Tags       = @('Windows', 'MacOS', 'Linux')
+            Tags       = @('Windows', 'macOS', 'Linux', 'Adobe')
             RequireLicenseAcceptance = $false
             ExternalModuleDependencies = @()
 }
     }
     RootModule             = 'PowerAdobe.psm1'
-    RequiredModules      = @()
+    RequiredModules      = @(@{
+            Guid            = 'ee272aa8-baaa-4edf-9f45-b6d6f7d844fe'
+            ModuleName      = 'PSSharedGoods'
+            RequiredVersion = '0.0.313'
+        })
 }

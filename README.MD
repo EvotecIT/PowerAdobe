@@ -118,3 +118,12 @@ Maximum calls for the application: 100 requests per a minute
 ### User / Groups API Limits
 If you are querying all users/all groups different limits apply. Basically 1-2 calls per hour are allowed and if you exceed this limit you will be throttled right away.
 Use with caution as Adobe is very strict with their API limits.
+### Complete GET retrieval
+
+User, group, and group-member commands follow Adobe's `lastPage` response flag until all pages have been read. For synchronization and other workflows that require a complete result, use `-ErrorAction Stop` and collect the output before applying changes:
+
+```powershell
+$users = @(Get-AdobeUser -ErrorAction Stop)
+```
+
+A failed request or invalid page terminates a strict call. Earlier pages may already have been written to the pipeline, so callers must not apply changes from streamed output before retrieval completes. Calls without `-ErrorAction Stop` preserve the warning and partial-output behavior.

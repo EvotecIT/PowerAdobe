@@ -1,8 +1,14 @@
-﻿Build-Module -ModuleName 'PowerAdobe' {
+﻿param(
+    [ValidateSet('Manifest', 'Build')][string] $RunMode = 'Build',
+    [bool] $SignModule = $false,
+    [string] $PackageRoot = (Join-Path $PSScriptRoot '../Artefacts')
+)
+Import-Module PSPublishModule -MinimumVersion 3.0.153 -Force
+Invoke-ModuleBuild -ModuleName 'PowerAdobe' -RunMode $RunMode -SkipInstall -NoInteractive {
     # Usual defaults as per standard module
     $Manifest = [ordered] @{
 
-        ModuleVersion        = '1.0.X'
+        ModuleVersion        = '1.0.6'
         CompatiblePSEditions = @('Desktop', 'Core')
         GUID                 = 'c2607b7b-4422-4687-b22c-1c26b456b47c'
         Author               = 'Przemyslaw Klys'
@@ -65,11 +71,10 @@
 
     New-ConfigurationImportModule -ImportSelf
 
-    New-ConfigurationBuild -Enable:$true -SignModule -MergeModuleOnBuild -MergeFunctionsFromApprovedModules -CertificateThumbprint '483292C9E317AA13B07BB7A96AE9D1A5ED9E7703'
+    New-ConfigurationBuild -Enable:$true -SignModule:$SignModule -MergeModuleOnBuild -MergeFunctionsFromApprovedModules -CertificateThumbprint '483292C9E317AA13B07BB7A96AE9D1A5ED9E7703'
 
-    New-ConfigurationArtefact -Type Unpacked -Enable -Path "$PSScriptRoot\..\Artefacts\Unpacked" -ModulesPath "$PSScriptRoot\..\Artefacts\Unpacked\Modules" -RequiredModulesPath "$PSScriptRoot\..\Artefacts\Unpacked\Modules" -AddRequiredModules
-    New-ConfigurationArtefact -Type Packed -Enable -Path "$PSScriptRoot\..\Artefacts\Packed" -ArtefactName '<ModuleName>.v<ModuleVersion>.zip'
-
+    New-ConfigurationArtefact -Type Unpacked -Enable -Path (Join-Path $PackageRoot 'Unpacked') -ModulesPath 'Modules' -RequiredModulesPath 'Modules' -AddRequiredModules
+    New-ConfigurationArtefact -Type Packed -Enable -Path (Join-Path $PackageRoot 'Packed') -ArtefactName '<ModuleName>.v<ModuleVersion>.zip'
     # global options for publishing to github/psgallery
     #New-ConfigurationPublish -Type PowerShellGallery -FilePath 'C:\Support\Important\PowerShellGalleryAPI.txt' -Enabled:$true
     #New-ConfigurationPublish -Type GitHub -FilePath 'C:\Support\Important\GitHubAPI.txt' -UserName 'EvotecIT' -Enabled:$true
